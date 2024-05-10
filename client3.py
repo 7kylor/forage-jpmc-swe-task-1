@@ -31,18 +31,20 @@ N = 500
 
 def getDataPoint(quote):
     """ Produce all the needed values to generate a datapoint """
-    """ ------------- Update this function ------------- """
+    # """ ------------- Update this function ------------- """
     stock = quote['stock']
     bid_price = float(quote['top_bid']['price'])
     ask_price = float(quote['top_ask']['price'])
-    price = bid_price
+    price = (bid_price + ask_price )/ 2
     return stock, bid_price, ask_price, price
 
 
 def getRatio(price_a, price_b):
     """ Get ratio of price_a and price_b """
-    """ ------------- Update this function ------------- """
-    return 1
+    """ ------------- Update this function ------------- """ 
+    if price_b == 0:
+        return
+    return  price_a / price_b
 
 
 # Main
@@ -56,4 +58,8 @@ if __name__ == "__main__":
             stock, bid_price, ask_price, price = getDataPoint(quote)
             print("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
 
-        print("Ratio %s" % getRatio(price, price))
+        if len(quotes) == 2:
+            stock1, bid_price1, ask_price1, price1 = getDataPoint(quotes[0])
+            stock2, bid_price2, ask_price2, price2 = getDataPoint(quotes[1])
+            price_ratio = getRatio(price1, price2)
+            print("Ratio %s" % price_ratio)
